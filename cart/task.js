@@ -34,7 +34,8 @@ for (let btnAdd of listProductsAdd) {
         id = product.dataset.id
         count = product.querySelector(".product__quantity-value").textContent
         let basketList = document.querySelector(".cart__products"),
-        productInBasket = getProductBasket(id)
+            basketListArray = Array.from(basketList.children)
+        productInBasket = basketListArray.find(item => item.dataset.id == id)
         if (productInBasket) {
             let productInBasketCount = productInBasket.querySelector(".cart__product-count")
             productInBasketCount.textContent = Number(productInBasketCount.textContent) + Number(count)
