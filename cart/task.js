@@ -6,7 +6,9 @@ for (let btn of btnList) {
         if (e.currentTarget.classList.contains("product__quantity-control_inc")) {
             btnAdd.textContent = Number(btnAdd.textContent) + 1
         } else {
-            btnAdd.textContent = Number(btnAdd.textContent) - 1
+            if (btnAdd.textContent > 1) {
+                btnAdd.textContent = Number(btnAdd.textContent) - 1
+            }
         }
     })
 }
@@ -21,39 +23,25 @@ function createBasket(id, img, count) {
     return product
 }
 
-function findProductInBasket(id) {
-    let basketList = document.querySelector(".cart__products").children
-    for (let product of basketList) {
-        let idProduct = product.dataset.id
-        if (idProduct == id) {
-            return true
-        }
-    }
-}
-
 function getProductBasket(id) {
     let basketList = Array.from(document.querySelector(".cart__products").children)
-    for (let product of basketList) {
-        let idProduct = product.dataset.id
-        if (idProduct == id) {
-            return basketList[basketList.indexOf(product)]
-        }
-    }
+    return basketList.find(item => item.dataset.id == id)
+
 }
 for (let btnAdd of listProductsAdd) {
     btnAdd.addEventListener("click", () => {
         let product = btnAdd.closest(".product")
         id = product.dataset.id
         count = product.querySelector(".product__quantity-value").textContent
-        let basketList = document.querySelector(".cart__products")
-        if (findProductInBasket(id)) {
-            let productInBasketCount = getProductBasket(id).querySelector(".cart__product-count")
+        let basketList = document.querySelector(".cart__products"),
+        productInBasket = getProductBasket(id)
+        if (productInBasket) {
+            let productInBasketCount = productInBasket.querySelector(".cart__product-count")
             productInBasketCount.textContent = Number(productInBasketCount.textContent) + Number(count)
         } else {
             img = product.querySelector(".product__image").getAttribute("src")
             let productBasket = createBasket(id, img, count)
             basketList.insertAdjacentHTML("afterbegin", productBasket)
         }
-        
     })
 }

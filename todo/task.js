@@ -17,15 +17,18 @@ let taskList = document.getElementById("tasks__list"),
     btnRemoveList = document.getElementsByClassName("task__remove")
 
 btnEnter.addEventListener("click", (e) => {
-    let textInput = inputText.value
-    let textElement = createTextElement(textInput)
-    taskList.insertAdjacentHTML("afterbegin", textElement)
-    inputText.value = ""
-    e.preventDefault()
-    let newTask = taskList.firstElementChild.querySelector(".task__remove")
-    newTask.addEventListener("click", (e) => {
-      newTask.closest(".task").remove()  
-    })
+    let textInput = inputText.value.trim()
+    if (!textInput == "") {
+        let textElement = createTextElement(textInput)
+        taskList.insertAdjacentHTML("afterbegin", textElement)
+        inputText.value = ""
+        e.preventDefault()
+        let newTask = taskList.firstElementChild.querySelector(".task__remove")
+        newTask.addEventListener("click", (e) => {
+          newTask.closest(".task").remove()  
+        })
+    }
+
 })
 
 
